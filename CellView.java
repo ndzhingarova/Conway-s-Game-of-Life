@@ -15,51 +15,33 @@ import javax.swing.JButton;
  *
  * @author nikoletad
  */
+public class CellView extends JButton implements ActionListener {
 
-public class Cell extends JButton implements ActionListener{
-    private boolean alive;
-    private int value;
-
-    public Cell() {
-        alive = false;
-        value = 0;
-        setBackground(Color.WHITE);
+    int x;
+    int y;
+    GameOfLifeControler golc;
+    
+    public CellView(GameOfLifeControler g, int x, int y) {
+        golc = g;
+        this.x = x;
+        this.y = y;
         this.addActionListener(this);
         repaint();
     }
 
-    public boolean isAlive() {
-        return alive;
-    }
-
-    public void setAlive(boolean Alive) {
-        this.alive = Alive;
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
-    value++;
-    value%=2;
-    switch(value){
-        case 0:
-            alive = false;
-            break;
-        case 1:
-            alive = true;
-            break;
-        default:
-    }
+        golc.accesCell(x, y).setAlive(!golc.accesCell(x, y).isAlive());
+        repaint();
     }
 
     @Override
     public void paint(Graphics g) {
-        super.paint(g); 
-        if(isAlive())   
+        super.paint(g);
+        if (golc.accesCell(x, y).isAlive()) {
             setBackground(Color.DARK_GRAY);
-        else    
+        } else {
             setBackground(Color.WHITE);
+        }
     }
-    
-    
-    
 }
